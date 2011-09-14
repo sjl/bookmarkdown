@@ -10,17 +10,25 @@
         <script type="text/javascript" src="/static/scripts/less.js"></script>
     </head>
 
-    <body>
+    <body class="{% block class %}{% endblock %}">
         <div class="container">
             <header class="sixteen columns">
                 <h1>Book Title</h1>
             </header>
 
-            <section class="content">
-                {% block content %}{% endblock %}
-            </section>
+            {% block content_full %}
+                <section class="content">
+                    {% block content %}{% endblock %}
+                </section>
+            {% endblock %}
 
             <footer class="sixteen columns">
+                Made by <a href="{{ author_url }}">{{ author }} Jimmy the Cat</a>.
+
+                <a href="/license.html">License</a>.
+
+                <br/>
+
                 Built with
                 <a href="http://bitbucket.org/sjl/bookmarkdown/">Bookmarkdown</a>.
             </footer>

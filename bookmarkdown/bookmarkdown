@@ -35,6 +35,21 @@ def _build_html_file(filename, template, context={}):
     with open(target, 'w') as f:
         f.write(out)
 
+def _build_index_file():
+    source = 'introduction.markdown'
+
+    if not os.path.exists(source):
+        return
+
+    with open(source, 'r') as f:
+        content = markdown.markdown(f.read())
+
+    out = env.get_template('splash.html').render(content=content)
+    target = join('build', 'html', 'index.html')
+
+    with open(target, 'w') as f:
+        f.write(out)
+
 
 def _copy_static():
     import bookmarkdown as ugly_hack
@@ -52,6 +67,7 @@ def _build_html():
 
     _copy_static()
 
+    _build_index_file()
     _build_html_file('acknowledgements', 'single')
     _build_html_file('license', 'single')
     _build_html_file('preface', 'single')

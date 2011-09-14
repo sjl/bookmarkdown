@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block class %}splash{% endblock %}
+
+{% block content_full %}
+    <section class="content twelve columns offset-by-two">
+        {{ content }}
+
+        <section class="toc">
+            <h2>Table of Contents</h2>
+
+            <ol>
+                <li><a href="/acknowledgements.html">Acknowledgements</a></li>
+                <li><a href="/preface.html">Preface</a></li>
+            </ol>
+        </section>
+    </section>
+{% endblock %}
