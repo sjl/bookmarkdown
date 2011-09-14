@@ -58,7 +58,7 @@ def _build_html():
 
     for filename in os.listdir('chapters'):
         if filename.endswith('.markdown'):
-            _build_html_file(join('chapters', filename), 'chapter')
+            _build_html_file(join('chapters', filename.rsplit('.')[0]), 'chapter')
 
 def _build_pdf():
     mkdirs(join('build', 'pdf'))

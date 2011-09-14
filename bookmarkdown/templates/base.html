@@ -11,15 +11,19 @@
     </head>
 
     <body>
-        <header>
-            <h1>Book Title</h1>
-        </header>
+        <div class="container">
+            <header class="sixteen columns">
+                <h1>Book Title</h1>
+            </header>
 
-        <section class="content">
-            {% block content %}{% endblock %}
-        </section>
+            <section class="content">
+                {% block content %}{% endblock %}
+            </section>
 
-        <footer>
-        </footer>
+            <footer class="sixteen columns">
+                Built with
+                <a href="http://bitbucket.org/sjl/bookmarkdown/">Bookmarkdown</a>.
+            </footer>
+        </div>
     </body>
 </html>
