@@ -26,3 +26,5 @@ On Windows this file is located in your home folder and named `_vimrc`.
 
 To easily find the location and name of the file on *any* operating system, run
 `:echo $MYVIMRC` in Vim.  The path will be displayed at the bottom of the screen.
+
+Create this file if it doesn't already exist.

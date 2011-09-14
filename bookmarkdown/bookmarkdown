@@ -12,7 +12,7 @@ env = Environment(loader=PackageLoader('bookmarkdown', 'templates'))
 join = os.path.join
 
 base_context = {
-    'title': getattr(config, 'title', ''),
+    'book_title': getattr(config, 'title', ''),
     'author': getattr(config, 'author', ''),
     'author_url': getattr(config, 'author_url', ''),}
 # }}}
@@ -44,7 +44,8 @@ def _build_html_file(filename, template, context={}):
     with open(source, 'r') as f:
         content = markdown.markdown(f.read())
 
-    out = render(template, content=content, **context)
+    name = pq(content)('h1').text()
+    out = render(template, content=content, name=name, **context)
     target = join('build', 'html', '%s.html' % filename)
 
     with open(target, 'w') as f:

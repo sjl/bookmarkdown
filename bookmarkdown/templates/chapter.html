@@ -2,6 +2,7 @@
 
 {% block content_full %}
     <section class="nav three columns">
+        {{ name }}
         <div class="prevnext">
             <a class="prev" href="">&laquo; Previous</a>
             <a class="next" href="">Next &raquo;</a>
@@ -10,10 +11,5 @@
 
     <section class="content twelve columns offset-by-one">
         {{ content }}
-
-        <div class="prevnext">
-            <a class="prev" href="">&laquo; Previous</a>
-            <a class="next" href="">Next &raquo;</a>
-        </div>
     </section>
 {% endblock %}

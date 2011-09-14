@@ -32,8 +32,8 @@ yourself wanting to "print some output" to help you debug problems.  Plain old
 done.  Using `:echom` will save the output and let you run `:messages` to view it
 later.
 
-Extra Credit
-------------
+Exercises
+---------
 
 Read `:help echo`.
 
