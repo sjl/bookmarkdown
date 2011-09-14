@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
-{% block content %}
-    {{ content }}
+{% block content_full %}
+    <section class="nav three columns">
+        <div class="prevnext">
+            <a class="prev" href="">&laquo; Previous</a>
+            <a class="next" href="">Next &raquo;</a>
+        </div>
+    </section>
+
+    <section class="content twelve columns offset-by-one">
+        {{ content }}
+
+        <div class="prevnext">
+            <a class="prev" href="">&laquo; Previous</a>
+            <a class="next" href="">Next &raquo;</a>
+        </div>
+    </section>
 {% endblock %}

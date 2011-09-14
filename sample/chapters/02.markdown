@@ -1,5 +1,5 @@
-Modal Mapping
-=============
+Setting Options
+===============
 
 What Should Happen
 ------------------

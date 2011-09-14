@@ -8,7 +8,7 @@ html, body {
         font-size: 28px;
     }
     h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
     h3 {
         font-size: 20px;
@@ -26,12 +26,21 @@ html, body {
         
         h1 {
             font-size: 42px;
+
+            a {
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
     footer {
         margin-top: 30px;
         text-align: center;
         font-style: italic;
+        margin-bottom: 100px;
     }
     .toc {
         ol {
@@ -40,6 +49,31 @@ html, body {
             li {
                 list-style: none;
             }
+        }
+    }
+    .nav {
+    }
+    .prevnext {
+        .next {
+            display: block;
+            float: right;
+        }
+    }
+    pre, code {
+        font: normal 14px Menlo, Monaco, Consolas, monospace;
+        background-color: #fafafa;
+        border: 1px solid #aaa;
+    }
+    code {
+        padding: 0px 4px;
+    }
+    pre {
+        margin-bottom: 22px;
+        padding: 6px 4px;
+
+        code {
+            border: none;
+            padding: 0;
         }
     }
 }

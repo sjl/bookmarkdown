@@ -1,5 +1,5 @@
-Strict Mapping
-==============
+Basic Mapping
+=============
 
 What Should Happen
 ------------------

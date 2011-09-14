@@ -1,10 +1,45 @@
-Basic Mapping
-=============
+Echoing Messages
+================
 
-What Should Happen
-------------------
+The first piece of Vimscript we'll look at is `echom`.
+
+You can read the full documentation for the command by running `:help echom` in Vim.
+As you go through this book you should try to read the `:help` for every new command
+you encounter to get a better understanding of how to use each one.
+
+Run the following command:
+
+    :echo "Hello, world!"
+
+You should see `Hello, world!` appear at the bottom of the window.
+
+Now run the following command:
+
+    :echom "Hello again, world!"
+
+You should see `Hello again, world!` appear at the bottom of the window.
+
+To see the difference between these two commands, run one more new command:
+
+    :messages
+
+You should see a list of messages.  `Hello, world!` will *not* be in this list, but
+`Hello again, world!` *will* be in it.
+
+When you're writing more complicated Vim scripts later in this book you may find
+yourself wanting to "print some output" to help you debug problems.  Plain old
+`:echo`will print output, but it will often disappear by the time your script is
+done.  Using `:echom` will save the output and let you run `:messages` to view it
+later.
 
 Extra Credit
 ------------
 
+Read `:help echo`.
 
+Read `:help echom`.
+
+Read `:help messages`.
+
+Add a line to your vimrc file that displays a friendly ASCII-art cat (`>^.^<`)
+whenever you open Vim.
