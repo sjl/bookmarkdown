@@ -35,7 +35,7 @@ def _build_html_file(filename, template, context={}):
     with open(target, 'w') as f:
         f.write(out)
 
-def _build_index_file():
+def _build_index_file(chapters):
     source = 'introduction.markdown'
 
     if not os.path.exists(source):
@@ -44,7 +44,7 @@ def _build_index_file():
     with open(source, 'r') as f:
         content = markdown.markdown(f.read())
 
-    out = env.get_template('splash.html').render(content=content)
+    out = env.get_template('splash.html').render(content=content, chapters=chapters)
     target = join('build', 'html', 'index.html')
 
     with open(target, 'w') as f:
@@ -67,25 +67,21 @@ def _build_html():
 
     _copy_static()
 
-    _build_index_file()
     _build_html_file('acknowledgements', 'single')
     _build_html_file('license', 'single')
     _build_html_file('preface', 'single')
 
+    chapters = []
     for filename in os.listdir('chapters'):
         if filename.endswith('.markdown'):
-            _build_html_file(join('chapters', filename.rsplit('.')[0]), 'chapter')
+            name = filename.rsplit('.')[0]
+            _build_html_file(join('chapters', name), 'chapter')
+            chapters.append(name)
 
-def _build_pdf():
-    mkdirs(join('build', 'pdf'))
+    _build_index_file(chapters)
 
 
 # Commands -------------------------------------------------------------------------
-@baker.command
-def pdf():
-    '''Build the PDF version of the book.'''
-    _build_pdf()
-
 @baker.command
 def html():
     '''Build the HTML version of the book.'''
@@ -95,7 +91,6 @@ def html():
 def build():
     '''Build all versions of the book.'''
     _build_html()
-    _build_pdf()
 
 @baker.command
 def serve(address='127.0.0.1', port=8000):
