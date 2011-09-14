@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+
+# {{{
+import os
+import baker
+import markdown
+from jinja2 import Environment, PackageLoader
+
+env = Environment(loader=PackageLoader('bookmarkdown', 'templates'))
+# }}}
+
+# Utilities ------------------------------------------------------------------------
+def mkdirs(path):
+    def _md(acc, next):
+        target = os.path.join(acc, next)
+        os.path.exists(target) or os.mkdir(target)
+        return target
+    reduce(_md, os.path.split(path), '')
+
+
+# Guts -----------------------------------------------------------------------------
+def _build_html_file(filename, template, context={}):
+    source = '%s.markdown' % filename
+
+    if not os.path.exists(source):
+        return
+
+    with open(source, 'r') as f:
+        content = markdown.markdown(f.read())
+
+    out = env.get_template('%s.html' % template).render(content=content, **context)
+    target = os.path.join('build', 'html', '%s.html' % filename)
+
+    with open(target, 'w') as f:
+        f.write(out)
+
+
+def _build_html():
+    mkdirs(os.path.join('build', 'html', 'chapters'))
+
+    _build_html_file('acknowledgements', 'single')
+    _build_html_file('license', 'single')
+    _build_html_file('preface', 'single')
+
+    for filename in os.listdir('chapters'):
+        if filename.endswith('.markdown'):
+            _build_html_file(os.path.join('chapters', filename), 'chapter')
+
+def _build_pdf():
+    mkdirs(os.path.join('build', 'pdf'))
+
+
+# Commands -------------------------------------------------------------------------
+@baker.command
+def pdf():
+    '''Build the PDF version of the book.'''
+    _build_pdf()
+
+@baker.command
+def html():
+    '''Build the HTML version of the book.'''
+    _build_html()
+
+@baker.command
+def build():
+    '''Build all versions of the book.'''
+    _build_html()
+    _build_pdf()
+
+@baker.command
+def serve(address='127.0.0.1', port=8000):
+    '''Serve the rendered book with a local webserver.
+
+    :param address: The address to bind the server to (default: 127.0.0.1)
+    :param port: The port to bind the server to (default: 8000)
+
+    '''
+    import SimpleHTTPServer, SocketServer
+
+    os.chdir(os.path.join('build', 'html'))
+    server = SocketServer.TCPServer((address, port),
+                                    SimpleHTTPServer.SimpleHTTPRequestHandler)
+
+    print "Serving book at http://%s:%d" % (address, port)
+    server.serve_forever()
+
+@baker.command
+def watch():
+    '''Watch the source files and rebuild the book when changed.'''
+    pass
+
+
+# Entry ----------------------------------------------------------------------------
+if __name__ == '__main__':
+    baker.run()
