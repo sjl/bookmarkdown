@@ -4,10 +4,18 @@
 import os, shutil
 import baker
 import markdown
+import config
+from pyquery import PyQuery as pq
 from jinja2 import Environment, PackageLoader
 
 env = Environment(loader=PackageLoader('bookmarkdown', 'templates'))
 join = os.path.join
+
+base_context = {
+    'title': getattr(config, 'title', ''),
+    'author': getattr(config, 'author', ''),
+    'author_url': getattr(config, 'author_url', ''),
+}
 # }}}
 
 # Utilities ------------------------------------------------------------------------
@@ -17,6 +25,14 @@ def mkdirs(path):
         os.path.exists(target) or os.mkdir(target)
         return target
     reduce(_md, os.path.split(path), '')
+
+def render(template, **context):
+    full_context = {}
+    full_context.update(base_context)
+    full_context.update(context)
+
+    return env.get_template('%s.html' % template).render(**full_context)
+
 
 
 # Guts -----------------------------------------------------------------------------
@@ -29,11 +45,16 @@ def _build_html_file(filename, template, context={}):
     with open(source, 'r') as f:
         content = markdown.markdown(f.read())
 
-    out = env.get_template('%s.html' % template).render(content=content, **context)
+    out = render(template, content=content, **context)
     target = join('build', 'html', '%s.html' % filename)
 
     with open(target, 'w') as f:
         f.write(out)
+
+    content = pq(out)
+
+    return {'content': content, 'name': content('.content h1').text(),
+            'filename': filename}
 
 def _build_index_file(chapters):
     source = 'introduction.markdown'
@@ -44,7 +65,7 @@ def _build_index_file(chapters):
     with open(source, 'r') as f:
         content = markdown.markdown(f.read())
 
-    out = env.get_template('splash.html').render(content=content, chapters=chapters)
+    out = render('splash', content=content, chapters=chapters)
     target = join('build', 'html', 'index.html')
 
     with open(target, 'w') as f:
@@ -75,8 +96,8 @@ def _build_html():
     for filename in os.listdir('chapters'):
         if filename.endswith('.markdown'):
             name = filename.rsplit('.')[0]
-            _build_html_file(join('chapters', name), 'chapter')
-            chapters.append(name)
+            chapter = _build_html_file(join('chapters', name), 'chapter')
+            chapters.append(chapter)
 
     _build_index_file(chapters)
 
