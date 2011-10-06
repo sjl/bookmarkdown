@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ content }}
+    <div class="sixteen columns">
+        {{ content }}
 
-    <div class="prevnext">
-        <a class="prev" href="">&laquo; Previous</a>
-        <a class="next" href="">Next &raquo;</a>
+        <div class="prevnext">
+            <a class="prev" href="">&laquo; Previous</a>
+            <a class="next" href="">Next &raquo;</a>
+        </div>
     </div>
 {% endblock %}

@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
 # {{{
-import os, shutil
+import os, shutil, sys
 import baker
 import markdown
 import config
 from pyquery import PyQuery as pq
 from jinja2 import Environment, PackageLoader
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 env = Environment(loader=PackageLoader('bookmarkdown', 'templates'))
 join = os.path.join
@@ -23,7 +26,7 @@ def mkdirs(path):
         target = join(acc, next)
         os.path.exists(target) or os.mkdir(target)
         return target
-    reduce(_md, os.path.split(path), '')
+    reduce(_md, path.split(os.path.sep), '')
 
 def render(template, **context):
     full_context = {}
@@ -44,7 +47,11 @@ def _build_html_file(filename, template, context={}):
     with open(source, 'r') as f:
         content = markdown.markdown(f.read())
 
-    name = pq(content)('h1').text()
+    try:
+        name = pq(content)('h1').text()
+    except ValueError:
+        name = "Untitled Chapter"
+
     out = render(template, content=content, name=name, **context)
     target = join('build', 'html', '%s.html' % filename)
 
@@ -88,7 +95,6 @@ def _build_html():
 
     _copy_static()
 
-    _build_html_file('acknowledgements', 'single')
     _build_html_file('license', 'single')
     _build_html_file('preface', 'single')
 

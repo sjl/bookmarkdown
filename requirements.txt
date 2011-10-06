@@ -1,3 +1,4 @@
 baker
 jinja2
-python-markdown
+Markdown
+pyquery
