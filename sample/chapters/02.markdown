@@ -14,8 +14,9 @@ Line numbers should appear in Vim.  Now run this:
 
     :set nonumber
 
-The line numbers should disappear.  `number` is a boolean option -- it can be off or
-on.  You turn it "on" by running `:set number` and "off" with `:set nonumber`.
+The line numbers should disappear.  `number` is a boolean option -- it can be
+off or on.  You turn it "on" by running `:set number` and "off" with `:set
+nonumber`.
 
 You can also "toggle" boolean options to set them to the *opposite* of whatever
 they are now.  Run this:
@@ -48,7 +49,13 @@ commands and watch what happens after each:
     :set numberwidth=4
     :set numberwidth?
 
-The `numberwidth` option changes how wide the column containing line numbers will be.
+The `numberwidth` option changes how wide the column containing line numbers
+will be.
+
+Try checking what a few other common options are set to:
+
+    :set wrap?
+    :set numberwidth?
 
 Finally, you can specify more than one option in the same `:set` command.  Try
 running this:
