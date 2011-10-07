@@ -24,7 +24,7 @@ commands:
     :nnoremap -d dd
     :nnoremap -c ddO
 
-Try them out by typing the keys in sequence (quickly) in normal mode.  The first
+Try them out by typing `-d` and `-c` (quickly) in normal mode.  The first
 creates a custom mapping to delete a line, while the second "clears" a line and
 puts you into insert mode.
 
