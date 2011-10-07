@@ -17,7 +17,10 @@ join = os.path.join
 base_context = {
     'book_title': getattr(config, 'title', ''),
     'author': getattr(config, 'author', ''),
-    'author_url': getattr(config, 'author_url', ''),}
+    'author_url': getattr(config, 'author_url', ''),
+    'ga_id': getattr(config, 'ga_id', ''),
+    'gauges_id': getattr(config, 'gauges_id', ''),
+}
 # }}}
 
 # Utilities ------------------------------------------------------------------------
