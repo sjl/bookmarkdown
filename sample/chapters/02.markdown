@@ -18,6 +18,9 @@ The line numbers should disappear.  `number` is a boolean option -- it can be
 off or on.  You turn it "on" by running `:set number` and "off" with `:set
 nonumber`.
 
+Toggling Options
+----------------
+
 You can also "toggle" boolean options to set them to the *opposite* of whatever
 they are now.  Run this:
 
@@ -30,6 +33,9 @@ The line numbers should reappear.  Now run it again:
 They should disappear once more.  Adding a `!` (exclamation point or "bang") to
 a boolean option toggles it.
 
+Checking Options
+----------------
+
 You can ask Vim what an option is currently set to by using a `?`.  Run these
 commands and watch what happens after each:
 
@@ -40,6 +46,9 @@ commands and watch what happens after each:
 
 Notice how the first `:set number?` command displayed `number` while the second
 displayed `nonumber`.
+
+Options with Values
+-------------------
 
 Some options take a value instead of just being off or on.  Run the following
 commands and watch what happens after each:
@@ -56,6 +65,9 @@ Try checking what a few other common options are set to:
 
     :set wrap?
     :set numberwidth?
+
+Setting Multiple Options at Once
+--------------------------------
 
 Finally, you can specify more than one option in the same `:set` command.  Try
 running this:

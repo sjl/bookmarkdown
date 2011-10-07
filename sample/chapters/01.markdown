@@ -13,6 +13,9 @@ Run the following command:
 
 You should see `Hello, world!` appear at the bottom of the window.
 
+Persistent Echoing
+------------------
+
 Now run the following command:
 
     :echom "Hello again, world!"
@@ -31,6 +34,9 @@ yourself wanting to "print some output" to help you debug problems.  Plain old
 `:echo`will print output, but it will often disappear by the time your script is
 done.  Using `:echom` will save the output and let you run `:messages` to view
 it later.
+
+Comments
+--------
 
 Before we move on we should mention comments.  When you write Vimscript code (in
 your `~/.vimrc` file or another one) you can add comments with the `"`
