@@ -21,9 +21,10 @@ base_context = {
     'ga_id': getattr(config, 'ga_id', ''),
     'gauges_id': getattr(config, 'gauges_id', ''),
 }
+md = markdown.Markdown(extensions=['toc'], safe_mode=False)
 # }}}
 
-# Utilities ------------------------------------------------------------------------
+# Utilities -------------------------------------------------------------------
 def mkdirs(path):
     def _md(acc, next):
         target = join(acc, next)
@@ -40,23 +41,51 @@ def render(template, **context):
 
 
 
-# Guts -----------------------------------------------------------------------------
-def _build_html_file(filename, template, context={}):
-    source = '%s.markdown' % filename
+# Guts ------------------------------------------------------------------------
+
+def _get_next_prev(path, paths):
+    try:
+        i = paths.index(path)
+        next = ('/%s.html' % paths[i + 1]) if i < len(paths) - 1 else None
+        prev = ('/%s.html' % paths[i - 1]) if i > 0 else None
+    except ValueError:
+        next, prev = None, None
+
+    return next, prev
+
+def _build_html_file(path, template, paths=[], context={}):
+    source = '%s.markdown' % path
 
     if not os.path.exists(source):
         return
 
     with open(source, 'r') as f:
-        content = markdown.markdown(f.read())
+        raw_markdown = f.read()
+
+        if template == 'chapter':
+            raw_markdown = '[TOC]\n\n' + raw_markdown
+
+        content = md.convert(raw_markdown)
+
+    cq = pq(content)
 
     try:
-        name = pq(content)('h1').text()
+        name = cq('h1').text()
     except ValueError:
         name = "Untitled Chapter"
 
-    out = render(template, content=content, name=name, **context)
-    target = join('build', 'html', '%s.html' % filename)
+    try:
+        toc = cq('.toc').html()
+        cq('.toc').remove()
+        content = unicode(cq)
+    except ValueError:
+        toc = None
+
+    next, prev = _get_next_prev(path, paths)
+
+    out = render(template, content=content, name=name, next=next, prev=prev,
+                 toc=toc, **context)
+    target = join('build', 'html', '%s.html' % path)
 
     with open(target, 'w') as f:
         f.write(out)
@@ -64,7 +93,7 @@ def _build_html_file(filename, template, context={}):
     content = pq(out)
 
     return {'content': content, 'name': content('.content h1').text(),
-            'filename': filename}
+            'filename': path}
 
 def _build_index_file(chapters):
     source = 'introduction.markdown'
@@ -98,15 +127,19 @@ def _build_html():
 
     _copy_static()
 
-    _build_html_file('license', 'single')
-    _build_html_file('preface', 'single')
-
-    chapters = []
+    paths = ['preface']
     for filename in os.listdir('chapters'):
         if filename.endswith('.markdown'):
             name = filename.rsplit('.')[0]
-            chapter = _build_html_file(join('chapters', name), 'chapter')
-            chapters.append(chapter)
+            paths.append(join('chapters', name))
+
+    _build_html_file('license', 'single', paths)
+    _build_html_file('preface', 'single', paths)
+
+    chapters = []
+    for path in paths[1:]:
+        chapter = _build_html_file(path, 'chapter', paths)
+        chapters.append(chapter)
 
     _build_index_file(chapters)
 

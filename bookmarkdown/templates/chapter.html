@@ -2,14 +2,28 @@
 
 {% block content_full %}
     <section class="nav three columns">
-        {{ name }}
+        {{ toc }}
+
         <div class="prevnext">
-            <a class="prev" href="">&laquo; Previous</a>
-            <a class="next" href="">Next &raquo;</a>
+            {% if prev %}
+                <a class="prev" href="{{ prev }}">&laquo; Previous</a>
+            {% endif %}
+            {% if next %}
+                <a class="next" href="{{ next }}">Next &raquo;</a>
+            {% endif %}
         </div>
     </section>
 
     <section class="content twelve columns offset-by-one">
         {{ content }}
+
+        <div class="prevnext">
+            {% if prev %}
+                <a class="prev" href="{{ prev }}">&laquo; Previous</a>
+            {% endif %}
+            {% if next %}
+                <a class="next" href="{{ next }}">Next &raquo;</a>
+            {% endif %}
+        </div>
     </section>
 {% endblock %}

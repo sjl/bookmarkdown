@@ -53,6 +53,32 @@ html, body {
         }
     }
     .nav {
+        margin-top: 18px;
+
+        ul {
+            list-style-type: none;
+            font: inherit;
+        }
+        li {
+            margin-left: 0px;
+        }
+    }
+    .nav > ul > li > a {
+        text-decoration: none;
+        margin-bottom: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        display: block;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .nav > ul > li > ul ul {
+        margin-left: 16px;
+    }
+    .nav > ul > li > ul {
+        margin-left: 0px;
     }
     .prevnext {
         .next {
