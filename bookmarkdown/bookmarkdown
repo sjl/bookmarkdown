@@ -40,9 +40,7 @@ def render(template, **context):
     return env.get_template('%s.html' % template).render(**full_context)
 
 
-
 # Guts ------------------------------------------------------------------------
-
 def _get_next_prev(path, paths):
     try:
         i = paths.index(path)
@@ -74,6 +72,11 @@ def _build_html_file(path, template, paths=[], context={}):
     except ValueError:
         name = "Untitled Chapter"
 
+    if template != 'splash':
+        title = cq('h1').text()
+    else:
+        title = None
+
     try:
         toc = cq('.toc').html()
         cq('.toc').remove()
@@ -83,8 +86,8 @@ def _build_html_file(path, template, paths=[], context={}):
 
     next, prev = _get_next_prev(path, paths)
 
-    out = render(template, content=content, name=name, next=next, prev=prev,
-                 toc=toc, **context)
+    out = render(template, title=title, content=content, name=name, next=next,
+                 prev=prev, toc=toc, **context)
     target = join('build', 'html', '%s.html' % path)
 
     with open(target, 'w') as f:
