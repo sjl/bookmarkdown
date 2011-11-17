@@ -21,7 +21,7 @@ base_context = {
     'ga_id': getattr(config, 'ga_id', ''),
     'gauges_id': getattr(config, 'gauges_id', ''),
 }
-md = markdown.Markdown(extensions=['toc'], safe_mode=False)
+md = markdown.Markdown(extensions=['toc', 'codehilite'], safe_mode=False)
 # }}}
 
 # Utilities -------------------------------------------------------------------
