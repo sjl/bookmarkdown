@@ -130,7 +130,7 @@ def _build_html():
 
     _copy_static()
 
-    paths = ['preface']
+    paths = ['preface', 'acknowledgements']
     for filename in os.listdir('chapters'):
         if filename.endswith('.markdown'):
             name = filename.rsplit('.')[0]
@@ -138,9 +138,10 @@ def _build_html():
 
     _build_html_file('license', 'single', paths)
     _build_html_file('preface', 'single', paths)
+    _build_html_file('acknowledgements', 'single', paths)
 
     chapters = []
-    for path in paths[1:]:
+    for path in paths[2:]:
         chapter = _build_html_file(path, 'chapter', paths)
         chapters.append(chapter)
 
