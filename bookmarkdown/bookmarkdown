@@ -4,7 +4,10 @@
 import os, shutil, sys
 import baker
 import markdown
-import config
+try:
+    import config
+except ImportError:
+    config = {}
 from pyquery import PyQuery as pq
 from jinja2 import Environment, PackageLoader
 

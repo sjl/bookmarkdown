@@ -15,7 +15,7 @@ setup_info = dict(
     scripts = ['bookmarkdown/bookmarkdown'],
 
     install_requires = [
-        'python-markdown',
+        'Markdown',
         'baker',
         'Jinja2',],
 
