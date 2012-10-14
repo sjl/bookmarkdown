@@ -114,7 +114,24 @@ html, body {
 }
 
 body.splash {
-    .toc {
+    section.toc {
         margin-top: 30px;
+
+        ol {
+            margin-left: 26px;
+
+            &.pre-toc {
+                margin-bottom: 0px;
+
+                li {
+                    list-style-type: lower-roman;
+                }
+            }
+            &.toc {
+                li {
+                    list-style-type: decimal;
+                }
+            }
+        }
     }
 }
