@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # {{{
-import os, shutil, sys
+import os, re, shutil, sys
 import baker
 import markdown
 import config
@@ -98,6 +98,34 @@ def _build_html_file(path, template, paths=[], context={}):
     return {'content': content, 'name': content('.content h1').text(),
             'filename': path}
 
+def _build_leanpub_file(path):
+    source = '%s.markdown' % path
+
+    if not os.path.exists(source):
+        return
+
+    with open(source, 'r') as f:
+        content = f.read()
+
+    content = re.sub(r'    :::(\w+)',
+                     r'{:lang="\1"}',
+                     content)
+
+    target = join('build', 'leanpub', '%s.markdown' % path.split('/')[-1])
+
+    with open(target, 'w') as f:
+        f.write(content)
+
+def _build_leanpub_book_file(front, chapters):
+    with open(join('build', 'leanpub', 'Book.txt'), 'w') as f:
+        f.write('Front:\n')
+        for path in front:
+            f.write(path + '.markdown\n')
+
+        f.write('Main:\n')
+        for path in chapters:
+            f.write(path.split('/')[-1] + '.markdown\n')
+
 def _build_index_file(chapters):
     source = 'introduction.markdown'
 
@@ -147,8 +175,32 @@ def _build_html():
 
     _build_index_file(chapters)
 
+def _build_leanpub():
+    mkdirs(join('build', 'leanpub'))
+
+    paths = ['preface', 'acknowledgements']
+    for filename in os.listdir('chapters'):
+        if filename.endswith('.markdown'):
+            name = filename.rsplit('.')[0]
+            paths.append(join('chapters', name))
+
+    for path in paths:
+        _build_leanpub_file(path)
+
+    front = ['preface', 'acknowledgements']
+    if 'chapters/00' in paths:
+        front.append('00')
+    chapters = paths[len(front):]
+
+    _build_leanpub_book_file(front, chapters)
+
 
 # Commands -------------------------------------------------------------------------
+@baker.command
+def leanpub():
+    '''Build the LeanPub-Markdown version of the book.'''
+    _build_leanpub()
+
 @baker.command
 def html():
     '''Build the HTML version of the book.'''
