@@ -8,3 +8,6 @@ syntax: glob
 .ropeproject
 tags
 sample/build
+bookmarkdown.egg-info
+dist/
+build/
