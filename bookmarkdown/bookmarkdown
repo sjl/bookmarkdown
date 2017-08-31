@@ -145,6 +145,10 @@ def _build_index_file(chapters):
         f.write(out)
 
 
+def _chapters():
+    return sorted(os.listdir('chapters'))
+
+
 def _copy_static():
     import bookmarkdown as ugly_hack
 
@@ -162,7 +166,7 @@ def _build_html():
     _copy_static()
 
     paths = ['preface', 'acknowledgements']
-    for filename in sorted(os.listdir('chapters')):
+    for filename in _chapters():
         if filename.endswith('.markdown'):
             name = filename.rsplit('.')[0]
             paths.append(join('chapters', name))
@@ -182,7 +186,7 @@ def _build_leanpub():
     mkdirs(join('build', 'leanpub'))
 
     paths = ['preface', 'acknowledgements']
-    for filename in os.listdir('chapters'):
+    for filename in _chapters():
         if filename.endswith('.markdown'):
             name = filename.rsplit('.')[0]
             paths.append(join('chapters', name))
